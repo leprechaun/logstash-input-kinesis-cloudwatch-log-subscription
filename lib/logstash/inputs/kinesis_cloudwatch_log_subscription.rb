@@ -5,7 +5,7 @@ require "logstash/environment"
 require "logstash/namespace"
 
 require 'logstash-input-kinesis_jars'
-require "logstash/inputs/kinesis/version"
+require "logstash/inputs/kinesiscloudwatchlogsubscription/version"
 
 # Receive events through an AWS Kinesis stream.
 #
@@ -20,11 +20,11 @@ require "logstash/inputs/kinesis/version"
 # option, which defaults to "logstash".
 #
 # The library can optionally also send worker statistics to CloudWatch.
-class LogStash::Inputs::Kinesis < LogStash::Inputs::Base
+class LogStash::Inputs::KinesisCloudWatchLogSubscription < LogStash::Inputs::Base
   KCL = com.amazonaws.services.kinesis.clientlibrary.lib.worker
-  require "logstash/inputs/kinesis/worker"
+  require "logstash/inputs/kinesiscloudwatchlogsubscription/worker"
 
-  config_name 'kinesis'
+  config_name 'kinesis_cloudwatch_log_subscription'
   milestone 1
 
   attr_reader(

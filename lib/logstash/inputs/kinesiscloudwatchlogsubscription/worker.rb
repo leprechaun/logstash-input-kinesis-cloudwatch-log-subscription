@@ -1,4 +1,4 @@
-class LogStash::Inputs::Kinesis::Worker
+class LogStash::Inputs::KinesisCloudWatchLogSubscription::Worker
   include com.amazonaws.services.kinesis.clientlibrary.interfaces::IRecordProcessor
 
   attr_reader(
@@ -44,13 +44,23 @@ class LogStash::Inputs::Kinesis::Worker
     @logger.error("Kinesis worker failed checkpointing: #{error}")
   end
 
-  def process_record(record)
-    raw = @decoder.decode(record.getData).to_s
-    @codec.decode(raw) do |event|
-      @decorator.call(event)
-      @output_queue << event
-    end
-  rescue => error
-    @logger.error("Error processing record: #{error}")
-  end
+	def process_record(record)
+		# I'm SOOOO SORRY. This is fugly. But it works. And lets me ship.
+		# Please make this right. I was always getting incorrect header errors.
+		# Either with JRuby zlib, or raw java zlib :(
+		raw = record.getData
+		File.open( '/tmp/sequence-' + record.sequenceNumber, 'w+') do |file|
+			file.write(raw.array)
+		end
+
+		raw = `zcat /tmp/sequence-#{record.sequenceNumber}`
+		File.delete "/tmp/sequence-#{record.sequenceNumber}"
+
+		@codec.decode(raw) do |event|
+			@decorator.call(event)
+			@output_queue << event
+		end
+	rescue => error
+		@logger.error("Error processing record: #{error}")
+	end
 end

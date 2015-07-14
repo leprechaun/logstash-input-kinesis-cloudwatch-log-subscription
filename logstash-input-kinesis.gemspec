@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'logstash/inputs/kinesis/version'
+require 'logstash/inputs/kinesiscloudwatchlogsubscription/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "logstash-input-kinesis"
-  spec.version       = Logstash::Input::Kinesis::VERSION
-  spec.authors       = ["Brian Palmer"]
-  spec.email         = ["brian@codekitchen.net"]
-  spec.summary       = %q{Logstash plugin for Kinesis input}
+  spec.name          = "logstash-input-kinesis-cloudwatch-log-subscription"
+  spec.version       = Logstash::Input::KinesisCloudWatchLogSubscription::VERSION
+  spec.authors       = ["Laurence MacGuire"]
+  spec.email         = ["leprechaun@gmail.com"]
+  spec.summary       = %q{Logstash plugin for Kinesis input from cloudwatch log subscriptions}
   spec.description   = %q{This gem is a logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/plugin install gemname. This gem is not a stand-alone program}
-  spec.homepage      = "https://github.com/codekitchen/logstash-input-kinesis"
+  spec.homepage      = "https://github.com/leprechaun/logstash-input-kinesis-cloudwatch-log-subscription"
   spec.licenses      = ['Apache License (2.0)']
 
   spec.files         = `git ls-files`.split($\)
